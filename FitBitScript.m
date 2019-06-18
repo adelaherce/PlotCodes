@@ -13,21 +13,21 @@
     
     %CP4
     addpath('C:\Users\adela\Dropbox (Brown)\For Adela\FitBit Data\CP4\processed\01-Apr-2019')
-        CP4May = open('01-Apr-2019_fitbitdata.mat')
-        CP4May = CP4May.fitbitdata
+        CP3May = open('01-Apr-2019_fitbitdata.mat')
+        CP3May = CP3May.fitbitdata
         
     addpath('C:\Users\adela\Dropbox (Brown)\For Adela\FitBit Data\CP4\processed\01-May-2019')
-        CP4May = open('01-May-2019_fitbitdata.mat')
-        CP4May = CP4May.fitbitdata
+        CP3May = open('01-May-2019_fitbitdata.mat')
+        CP3May = CP3May.fitbitdata
 
      %CP3
      addpath('C:\Users\adela\Dropbox (Brown)\For Adela\FitBit Data\CP3\processed\02-Apr-2019')
-        CP4May =  open('02-Apr-2019_fitbitdata.mat')
-        CP4May = CP4May.fitbitdata 
+        CP3May =  open('02-Apr-2019_fitbitdata.mat')
+        CP3May = CP3May.fitbitdata 
         
      addpath('C:\Users\adela\Dropbox (Brown)\For Adela\FitBit Data\CP3\processed\01-May-2019')
-        CP4May = open('01-May-2019_fitbitdata.mat')
-        CP4May = CP4May.fitbitdata
+        CP3May = open('01-May-2019_fitbitdata.mat')
+        CP3May = CP3May.fitbitdata
         
    
      %CP2
@@ -40,74 +40,56 @@
         CP2May = CP2May.fitbitdata
         
      addpath('C:\Users\adela\Dropbox (Brown)\For Adela\FitBit Data\CP2\processed\01-Feb-2019')
-        CP4May = open('01-Feb-2019_fitbitdata.mat')
-        CP4May = CP4May.fitbitdata
+        CP3May = open('01-Feb-2019_fitbitdata.mat')
+        CP3May = CP3May.fitbitdata
         
     
         
             
         
  %% Adds Sleep Stage Levels
-%subplot 312
-  %  plot(CP4May.HR{:,1},CP4May.HR{:,3})
-  %  xlabel ('Date')
-  %  label ('Heart')
+
+
+
+for i = 1: length(CP3May.Sleep{:,5})   
+        
+    if strcmp(CP3May.Sleep{i,3}{1},'light')
+            CP3May.Sleep{i,6} = 3
+        
+        elseif strcmp(CP3May.Sleep{i,5}{1}, 'deep')
+               CP3May.Sleep{i,6} = 1
+       
+        elseif strcmp(CP3May.Sleep{i,5}{1}, 'wake')
+                CP3May.Sleep{i,6} = 7
+       
+        elseif strcmp(CP3May.Sleep{i,5}{1}, 'rem')
+                CP3May.Sleep{i,6} = 6
     
+                
    
-% plotting sleep data ???
+        end 
+end
+
+ %% plotting sleep data
+%fig.Color = [1 0.4 0.6]; PINK!
+%Purple [0.4940 0.1840 0.5560]
+%[0.4660 0.6740 0.1880] green
+
 
 load('CP4Apr.mat')
 load('CP4May.mat')
 load('CP3Apr.mat')
 load('CP3May.mat')
 
-for i = 1: length(CP4May.Sleep{:,5})   
-        
-    if strcmp(CP4May.Sleep{i,3}{1},'light')
-            CP4May.Sleep{i,6} = 3
-        
-        elseif strcmp(CP4May.Sleep{i,5}{1}, 'deep')
-               CP4May.Sleep{i,6} = 1
-       
-        elseif strcmp(CP4May.Sleep{i,5}{1}, 'wake')
-                CP4May.Sleep{i,6} = 7
-       
-        elseif strcmp(CP4May.Sleep{i,5}{1}, 'rem')
-                CP4May.Sleep{i,6} = 6
-    
-                
-   
-        end 
-end
-%plot sleep
-
-%fig.Color = [1 0.4 0.6]; PINK!
-%Purple [0.4940 0.1840 0.5560]
-%[0.4660 0.6740 0.1880] green
-    %fig = gcf
-
-plot(CP4May.Sleep{:,2},CP4May.Sleep{:,6},'color',[1 0.4 0.6])
+plot(CP3May.Sleep{:,2},CP3May.Sleep{:,6},'color',[1 0.4 0.6])
 
    title ('CP3 April Somnogram')
                 xlabel('Date')
-    
-                ylabel('Sleep Stage')
-                    
+                ylabel('Sleep Stage') 
                     yticks([1 3 6 7])
-
-                    
                          yticklabels({'deep','light','rem','wake'})
                     
-                    
-                
-                    
-                   
-                    
-
-
-
-
-       
+      
 %% heart rate and stim
 
 plot(CP2May.HR{:,1},CP2May.HR{:,3},'red')   
@@ -127,13 +109,7 @@ for  x1 = stim(i)
       
 end
 
-y = CP2May.HR{:,3};
-avg = mean(y)
-yline(avg,'color',[0.4940 0.1840 0.5560])
-
-
-    
-    legend({'Heart Rate', 'Change in Stim Settings','Average Heart Rate'})
+legend({'Heart Rate', 'Change in Stim Settings','Average Heart Rate'})
 
 
 
@@ -184,7 +160,7 @@ title('CP4 April Minutes in Sleep Stage')
     
 
                 
-%% Plotting
+%% Plotting Steps
 
     % plotting Steps
  
@@ -196,7 +172,7 @@ title('CP4 April Minutes in Sleep Stage')
 
 
 
-plot(CP4May.Steps{:,1},CP4May.Steps{:,2})
+plot(CP3May.Steps{:,1},CP3May.Steps{:,2})
    title ('CP4 Steps for April')
                 xlabel('Date')
                 ylabel('Steps')
@@ -204,20 +180,20 @@ plot(CP4May.Steps{:,1},CP4May.Steps{:,2})
     
               
 
-%% subplotting 
+%% subplotting for Sleep Log
 subplot 211 
-   plot(CP4May.SleepLog{:,1},CP4May.SleepLog{:,4},'color',[0.4940 0.1840 0.5560])
+   plot(CP3May.SleepLog{:,1},CP3May.SleepLog{:,4},'color',[0.4940 0.1840 0.5560])
         xlabel ('Date')
         ylabel ('Efficiency')
         title('CP4 April Sleep Efficiency')
 
 subplot 212
    
-    plot (CP4May.SleepLog{:,1},CP4May.SleepLog{:,7},'blue')
+    plot (CP3May.SleepLog{:,1},CP3May.SleepLog{:,7},'blue')
     
     hold on;
     
-    plot (CP4May.SleepLog{:,1},CP4May.SleepLog{:,9},'color',[0.4660 0.6740 0.1880])
+    plot (CP3May.SleepLog{:,1},CP3May.SleepLog{:,9},'color',[0.4660 0.6740 0.1880])
         xlabel ('Date')
             
         ylabel ('Minutes')
