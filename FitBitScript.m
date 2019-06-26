@@ -986,7 +986,9 @@ end
 
 legend({'Heart Rate', 'Change in Stim Settings','Average Heart Rate'})
 
-
+% Heart Rate and movmean
+k = [10 20 30]
+movmean(CP4May.HR{:,3},k)
 
 
 
@@ -1037,7 +1039,7 @@ title('CP4 April Minutes in Sleep Stage')
                 
 %% Plotting Steps
 
-    % plotting Steps
+%plotting Steps
  
  plot(CP3MayDateSt(s),CP3MaySt(s))
             
@@ -1051,9 +1053,62 @@ plot(CP4May.Steps{:,1},CP4May.Steps{:,2})
    title ('CP4 Steps for April')
                 xlabel('Date')
                 ylabel('Steps')
-                
+
+%Bar Graph/Histogram 
+
+%set up
+holdSleepdat = datevec(CP4Apr.Steps{:,1});
+newday = diff(holdSleepdat(:,3));
+switchday = find(newday == 1);
+a = switchday;
+                     
+dt = (CP4Apr.Steps{:,1});
+dt.Format = 'dd';
+column1 = cellstr(dt) ;       
+dt.Format = 'MMM';
+column2 = cellstr(dt); 
+dt.Format = 'yyyy';
+column3 = cellstr(dt);
+B = setdiff(column1, column2);
+%setup end
+
+%plots each input like per hour
+bar(CP4May.Steps{:,2})
+%
+plot(CP4Apr.Steps{:,1},CP4Apr.Steps{:,2})
+
+%must add a(j) + 1 so that the previous days input isn't included
+%Must add a 0 at the end of a so that the for loop goes through last x
+for x = 1:30; j = x - 1;
+    if x == 1 
+    step(x) = sum(CP4Apr.Steps{1:a(x),2})
+    else
+        step(x) = sum(CP4Apr.Steps{a(j)+1:a(x),2})
+    end
+    if x == 30 
+        step(x) = sum(CP4Apr.Steps{a(j)+1:720,2})
+    end
+end
+%where 720 is not the end bc end of data includes May
+
+bar(step)
+title('CP4 May Steps')
+xlabel('Days in May')
+ylabel('Steps per Day')
+stepr = step.';
+
+%datecheck
+datecheck = sum(CP4May.Steps{1:24,2})
+steplast = sum(CP4May.Steps{a(30):768,2})
+
     
-              
+%Histogram 
+steprow = step.';
+histogram(steprow,'numbins',40)
+title('CP4 April Steps Histogram')
+ylim([0 7.5])
+
+
 
 %% subplotting for Sleep Log
 subplot 211 
